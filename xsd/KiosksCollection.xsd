@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Kiosk"
+    targetNamespace="http://365retailmarkets.com/Kiosk"
+    elementFormDefault="qualified"
+    xmlns="http://365retailmarkets.com/Kiosk"
+    xmlns:mstns="http://365retailmarkets.com/Kiosk"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+  <xs:element name="VDITransaction" >
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="KiosksCollection">
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="Kiosk">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element ref="UserData" minOccurs="0"></xs:element>
+                  </xs:all>
+                  <xs:attributeGroup ref="kioskAttribute"></xs:attributeGroup>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attributeGroup ref="recordsCount"></xs:attributeGroup>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="UserData" minOccurs="0"></xs:element>
+      </xs:all>
+      <xs:attributeGroup ref="vdiTransactionRoot"></xs:attributeGroup>
+    </xs:complexType>    
+  </xs:element>
+
+  <xs:attributeGroup name="kioskAttribute">
+    <xs:attribute name="MarketID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="KioskID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="LastSync" type="xs:dateTime"></xs:attribute>
+    <xs:attribute name="LastTransaction" type="xs:dateTime"></xs:attribute>
+    <xs:attribute name="CatalogVersion" type="xs:token"></xs:attribute> 
+  </xs:attributeGroup>
+  
+  <!-- common element begin-->
+  <xs:attributeGroup name="recordsCount">
+    <xs:attribute name="RecordsCount" type="xs:positiveInteger" use="required"></xs:attribute>
+  </xs:attributeGroup>
+  
+  <xs:element name="UserData">
+    <xs:complexType>
+      <xs:all></xs:all>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="vdiTransactionRoot">
+    <xs:attribute name="VDIXMLVersion" type="xs:positiveInteger" use="required"></xs:attribute>
+    <xs:attribute name="ApplicationID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="VDIXMLType" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="ApplicationVersion" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="ProviderID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="CustomerID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="TransactionID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="TransactionTime" type="xs:dateTime"></xs:attribute>
+    <xs:attribute name="CompressionType" type="xs:string"></xs:attribute>
+    <xs:attribute name="CompressionParam" type="xs:string"></xs:attribute>
+    <xs:attribute name="OperatorID" type="xs:token"></xs:attribute>
+  </xs:attributeGroup>
+  <!-- common element end-->
+
+</xs:schema>

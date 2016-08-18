@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Sale"
+    targetNamespace="http://365retailmarkets.com/Sales"
+    elementFormDefault="qualified"
+    xmlns="http://365retailmarkets.com/Sales"
+    xmlns:mstns="http://365retailmarkets.com/Sales"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+  <xs:element name="VDITransaction" >
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="Sales">
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="Sale">
+                <xs:complexType>
+                  <xs:all>
+                  <xs:element ref="Summary" minOccurs="1" maxOccurs="1" ></xs:element>
+                  <xs:element ref="Items" minOccurs="1"></xs:element>
+                    <xs:element ref="Tenders" minOccurs="1"></xs:element>
+                    <xs:element ref="UserData" minOccurs="0"></xs:element>
+                  
+                  </xs:all>
+                  <xs:attributeGroup ref="saleAttribute"></xs:attributeGroup>
+                </xs:complexType>
+              </xs:element>
+            </xs:all>
+            <xs:attributeGroup ref="recordsCount"></xs:attributeGroup>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="UserData" minOccurs="0"></xs:element>
+      </xs:all>
+
+      <xs:attributeGroup ref="vdiTransactionRoot"></xs:attributeGroup>
+    </xs:complexType>
+
+  </xs:element>
+  
+  <xs:attributeGroup name="saleAttribute">
+    <xs:attribute name="MarketID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="KioskID" type="xs:token" ></xs:attribute>
+    <xs:attribute name="ConsumerID" type="xs:token"></xs:attribute>
+    <xs:attribute name="SaleID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="SaleTime" type="xs:dateTime" use="required"></xs:attribute>
+  </xs:attributeGroup>
+
+  <!--public element begin-->
+  <xs:element name="Summary">
+    <xs:complexType>
+      <xs:all>
+
+        <xs:element ref="Fees" minOccurs="0"></xs:element>
+        <xs:element ref="Taxes" minOccurs="0"></xs:element>
+        <xs:element ref="UserData" minOccurs="0"></xs:element>
+      </xs:all>
+      <xs:attribute name="Price" type="xs:decimal" use="required"> </xs:attribute>
+      <xs:attribute name="Discount" type="xs:decimal"></xs:attribute>
+      <xs:attribute name="Deposit" type="xs:decimal"></xs:attribute>
+      <xs:attribute name="Total" type="xs:decimal" use="required"></xs:attribute>
+    </xs:complexType>
+
+  </xs:element>
+
+
+  <xs:element name="Fees">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element name="Fee">
+          <xs:complexType>
+            <xs:attribute name="ID" type="xs:token" ></xs:attribute>
+            <xs:attribute name="Name" type="xs:token" use="required"></xs:attribute>
+            <xs:attribute name="Value" type="xs:decimal" use="required"></xs:attribute>
+            <xs:attribute name="Count" type="xs:integer" use="required"></xs:attribute>
+            <xs:attribute name="Total" type="xs:decimal" use="required"></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="recordsCount"></xs:attributeGroup>
+      <xs:attribute name="Total" type="xs:decimal" use="required"></xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Taxes">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element name="Tax">
+          <xs:complexType>
+            <xs:attribute name="ID" type="xs:token" ></xs:attribute>
+            <xs:attribute name="Name" type="xs:token" use="required"></xs:attribute>
+            <xs:attribute name="Rate" type="xs:decimal" use="required"></xs:attribute>
+            <xs:attribute name="Value" type="xs:decimal" use="required"></xs:attribute>
+            <xs:attribute name="Count" type="xs:integer" use="required"></xs:attribute>
+            <xs:attribute name="Total" type="xs:decimal" use="required"></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="recordsCount"></xs:attributeGroup>
+      <xs:attribute name="Total" type="xs:decimal" use="required"></xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Items">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element name="Item">
+          <xs:complexType>
+            <xs:all>
+              <xs:element ref="Fees" minOccurs="0"></xs:element>
+              <xs:element ref="Taxes" minOccurs="0"></xs:element>
+              <xs:element ref="UserData" minOccurs="0"></xs:element>
+            </xs:all>
+            <xs:attribute name="ProductID" type="xs:token" use="required"></xs:attribute>
+            <xs:attribute name="Code" type="xs:token" ></xs:attribute>
+            <xs:attribute name="Quantity" type="xs:positiveInteger" use="required"></xs:attribute>
+            <xs:attribute name="Cost" type="xs:decimal"></xs:attribute>
+            <xs:attribute name="Price" type="xs:decimal" use="required"></xs:attribute>
+            <xs:attribute name="Discount" type="xs:decimal"></xs:attribute>
+            <xs:attribute name="Deposit" type="xs:decimal"></xs:attribute>
+            <xs:attribute name="Total" type="xs:decimal" use="required"></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="recordsCount"></xs:attributeGroup>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Tenders">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element name="Tender">
+          <xs:complexType>
+            <xs:all>
+              <xs:element ref="Bills" minOccurs="0"></xs:element>
+              <xs:element ref="Coins" minOccurs="0"></xs:element>
+              <xs:element ref="UserData" minOccurs="0"></xs:element>
+            </xs:all>
+            <xs:attribute name="Type" type="xs:token" use="required"></xs:attribute>
+            <xs:attribute name="Description" type="xs:token"></xs:attribute>
+            <xs:attribute name="Amount" type="xs:decimal" use="required"></xs:attribute>
+            <xs:attribute name="Reference" type="xs:token"></xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="recordsCount"></xs:attributeGroup>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Bills">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded"></xs:sequence>
+      <xs:attributeGroup ref="BillOrCoin"></xs:attributeGroup>
+    </xs:complexType>    
+  </xs:element>
+  
+  <xs:element name="Coins">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded"></xs:sequence>
+      <xs:attributeGroup ref="BillOrCoin"></xs:attributeGroup>
+    </xs:complexType>
+  </xs:element>
+  <!--public element end-->
+
+  <!-- common element begin-->
+  <xs:attributeGroup name="BillOrCoin">
+    <xs:attribute name="Direction" type="xs:string"></xs:attribute>
+    <xs:attribute name="Value" type="xs:decimal"></xs:attribute>
+    <xs:attribute name="Count" type="xs:integer"></xs:attribute>
+    <xs:attribute name="Amount" type="xs:decimal"></xs:attribute>
+  </xs:attributeGroup>
+  
+  <xs:attributeGroup name="recordsCount">
+    <xs:attribute name="RecordsCount" type="xs:positiveInteger" use="required"></xs:attribute>
+  </xs:attributeGroup>
+  
+  <xs:element name="UserData">
+    <xs:complexType>
+      <xs:all></xs:all>
+      <xs:anyAttribute></xs:anyAttribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="vdiTransactionRoot">
+    <xs:attribute name="VDIXMLVersion" type="xs:positiveInteger" use="required"></xs:attribute>
+    <xs:attribute name="ApplicationID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="VDIXMLType" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="ApplicationVersion" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="ProviderID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="CustomerID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="TransactionID" type="xs:token" use="required"></xs:attribute>
+    <xs:attribute name="TransactionTime" type="xs:dateTime"></xs:attribute>
+    <xs:attribute name="OperatorID" type="xs:token"></xs:attribute>
+
+  </xs:attributeGroup>
+  <!-- common element end-->
+
+</xs:schema>
