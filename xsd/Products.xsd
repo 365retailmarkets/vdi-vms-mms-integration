@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ProductCatalog"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="VDITransaction">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="MarketsCollection">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="Market"
+                          maxOccurs="unbounded" />
+              <xs:element ref="UserData"
+                          minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+
+        </xs:element>
+      </xs:all>
+      <xs:attributeGroup ref="vdiTransactionRoot"></xs:attributeGroup>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Market">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="ProductsUpdate"
+                    minOccurs="0"/>
+        <xs:element ref="ProductsRemove"
+                    minOccurs="0"/>
+        <xs:element ref="UserData"
+                    minOccurs="0"/>
+      </xs:all>
+      <xs:attribute name="MarketID"
+                    type="ID"
+                    use="required"/>
+      <xs:attribute name="CatalogVersion"
+                    type="xs:token" />
+      <xs:attribute name="CatalogSize"
+                    type="CatalogSize"
+                    use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ProductsUpdate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Product"
+                    maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:all>
+              <xs:element ref="Codes"
+                          minOccurs="0"/>
+              <xs:element ref="Taxes"
+                          minOccurs="0"/>
+              <xs:element ref="Fees"
+                          minOccurs="0"/>
+            </xs:all>
+            <xs:attribute name="ProductID"
+                          type="ID"
+                          use="required" />
+            <xs:attribute name="ProductName"
+                          type="Name40" />
+            <xs:attribute name="Price"
+                          type="xs:decimal" />
+            <xs:attribute name="Cost"
+                          type="xs:decimal" />
+            <xs:attribute name="ProductCode"
+                          type="Code"
+                          use="optional" />
+            <xs:attribute name="CategoryCode"
+                          type="Code"
+                          use="optional" />
+            <xs:attribute name="Category"
+                          type="Name40"
+                          use="optional" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Codes">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded"
+                   minOccurs="0">
+        <xs:element name="Code"
+                    type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Fees">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded"
+                   minOccurs="0">
+        <xs:element name="Fee">
+          <xs:complexType>
+            <xs:attribute name="ID"
+                          type="ID"
+                          use="optional"/>
+            <xs:attribute name="Name"
+                          type="Name"
+                          use="optional"/>
+            <xs:attribute name="Value"
+                          type="xs:decimal"
+                          use="required"/>
+            <xs:attribute name="IsTaxable"
+                          type="xs:boolean"
+                          use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Taxes">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded"
+                   minOccurs="0">
+        <xs:element name="Tax">
+          <xs:complexType>
+            <xs:attribute name="ID"
+                          type="ID"
+                          use="optional"/>
+            <xs:attribute name="Name"
+                          type="xs:token"
+                          use="optional"/>
+            <xs:attribute name="Rate"
+                          type="xs:decimal"
+                          use="required"/>
+            <!--<xs:attribute name="Value" type="xs:decimal" use="optional"/>-->
+            <xs:attribute name="IncludedInPrice"
+                          type="xs:decimal"
+                          use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ProductsRemove">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Product"
+                    maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="ProductID"
+                          type="ID"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <!-- common element begin-->
+
+  <xs:element name="UserData">
+    <xs:complexType>
+      <xs:all ></xs:all>
+      <xs:anyAttribute />
+
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="ID">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:maxLength value="64" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Code"
+                 final="restriction" >
+    <xs:restriction base="xs:token">
+      <xs:minLength value="0" />
+      <xs:maxLength value="64" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Name"
+                 final="restriction" >
+    <xs:restriction base="xs:token">
+      <xs:minLength value="0" />
+      <xs:maxLength value="128" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Name40"
+                 final="restriction" >
+    <xs:restriction base="xs:token">
+      <xs:minLength value="0" />
+      <xs:maxLength value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="CatalogSize"
+                 final="restriction" >
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="Full" />
+      <xs:enumeration value="Partial" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="vdiTransactionRoot">
+    <xs:attribute name="VDIXMLVersion"
+                  type="xs:positiveInteger"
+                  use="required"/>
+    <xs:attribute name="VDIXMLType"
+                  type="xs:token"
+                  use="required"/>
+    <!--Valid options are: Sales,  -->
+    <xs:attribute name="ProviderID"
+                  type="ID"
+                  use="required"  />
+    <xs:attribute name="ApplicationID"
+                  type="ID"
+                  use="required"/>
+    <xs:attribute name="ApplicationVersion"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="OperatorID"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="TransactionID"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="TransactionTime"
+                  type="xs:dateTime"
+                  use="required"/>
+
+    <xs:attribute name="CompressionType"
+                  type="xs:token"
+                  use="optional"/>
+    <xs:attribute name="CompressionParam"
+                  type="xs:token"
+                  use="optional"/>
+    <xs:attribute name="Encoding"
+                  type="xs:token"
+                  use="optional"/>
+  </xs:attributeGroup>
+  <!-- common element end-->
+
+</xs:schema>

@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ConsumerTransaction"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="VDITransaction" >
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="ConsumerTransactions">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="ConsumerTransaction">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="Bills"
+													type="Bills"
+										            minOccurs="0"/>
+										<xs:element name="Coins"
+													type="Bills"
+										            minOccurs="0"/>
+										<xs:element name="UserData"
+													type="UserData"
+										            minOccurs="0"/>
+									</xs:all>
+									<xs:attributeGroup ref="ConsumerTransactionAttributeGroup"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="UserData"
+							type="UserData"
+				            minOccurs="0"/>
+			</xs:all>
+			<xs:attributeGroup ref="VDITransactionAttributeGroup"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="VDITransactionAttributeGroup">
+		<xs:attribute name="VDIXMLVersion"
+		              type="xs:positiveInteger"
+		              use="required"/>
+		<xs:attribute name="VDIXMLType"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="ProviderID"
+		              type="ID"
+		              use="required"  />
+		<xs:attribute name="ApplicationID"
+		              type="ID"
+		              use="required"/>
+		<xs:attribute name="ApplicationVersion"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="OperatorID"
+		              type="xs:token"
+                      use="required"/>
+		<xs:attribute name="TransactionID"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="TransactionTime"
+		              type="xs:dateTime"
+		              use="required"/>
+
+		<xs:attribute name="CompressionType"
+		              type="xs:token"
+		              use="optional"/>
+		<xs:attribute name="CompressionParam"
+		              type="xs:token"
+		              use="optional"/>
+		<xs:attribute name="Encoding"
+		              type="xs:token"
+		              use="optional"/>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="ConsumerTransactionAttributeGroup">
+		<xs:attribute name="MarketID"
+		              type="ID"
+		              use="required"/>
+		<xs:attribute name="KioskID"
+		              type="ID"
+		              use="optional"/>
+		<xs:attribute name="ConsumerID"
+		              type="ID"
+		              use="required"/>
+		<xs:attribute name="ConsumerName"
+		              type="Name"
+		              use="optional"/>
+		<xs:attribute name="Type"
+		              type="TransactionType"
+		              use="required"/>
+		<xs:attribute name="Description"
+		              type="String64"/>
+		<xs:attribute name="TransactionID"
+		              type="ID"
+		              use="required"/>
+		<xs:attribute name="TransactionTime"
+		              type="xs:dateTime"
+		              use="required"/>
+		<xs:attribute name="Amount"
+		              type="xs:decimal"
+		              use="required"/>
+		<xs:attribute name="Reference"
+		              type="xs:string"/>
+		<xs:attribute name="Reason"
+		              type="xs:string"/>
+		<xs:attribute name="Notes"
+		              type="String256"/>
+	</xs:attributeGroup>
+
+	<xs:complexType name="Bills">
+		<xs:sequence maxOccurs="unbounded"/>
+		<xs:attributeGroup ref="BillOrCoinAttributeGroup"/>
+	</xs:complexType>
+
+	<xs:complexType name="Coins">
+		<xs:sequence maxOccurs="unbounded"/>
+		<xs:attributeGroup ref="BillOrCoinAttributeGroup"/>
+	</xs:complexType>
+	
+	<xs:attributeGroup name="BillOrCoinAttributeGroup">
+		<xs:attribute name="Direction"
+		              type="CashDirection"
+		              use="required"/>
+		<xs:attribute name="Value"
+		              type="xs:decimal"
+		              use="required"/>
+		<xs:attribute name="Count"
+		              type="xs:integer"
+		              use="required"/>
+		<xs:attribute name="Amount"
+		              type="xs:decimal"
+		              use="required"/>
+	</xs:attributeGroup>
+
+	<xs:complexType name="UserData">
+		<xs:all/>
+	</xs:complexType>
+
+	<xs:simpleType name="ID">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1" />
+			<xs:maxLength value="64" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Name"
+	               final="restriction" >
+		<xs:restriction base="xs:token">
+			<xs:minLength value="0" />
+			<xs:maxLength value="128" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="String64"
+	               final="restriction" >
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="64" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="String256"
+	               final="restriction" >
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="256" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CashDirection"
+	               final="restriction" >
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="IN" />
+			<xs:enumeration value="OUT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TransactionType"
+	               final="restriction" >
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="CASH" />
+			<xs:enumeration value="CARD" />
+			<xs:enumeration value="EXTERNAL" />
+			<xs:enumeration value="ADJUSTMENT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

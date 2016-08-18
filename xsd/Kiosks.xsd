@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Kiosk"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="VDITransaction" >
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="KiosksCollection">
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="Kiosk">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="UserData"
+								type="UserData"
+                                minOccurs="0"/>
+                  </xs:all>
+                  <xs:attributeGroup ref="kioskAttributes"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="UserData"
+					type="UserData"
+                    minOccurs="0"></xs:element>
+      </xs:all>
+      <xs:attributeGroup ref="VDITransactionAttributeGroup"></xs:attributeGroup>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="kioskAttributes">
+    <xs:attribute name="MarketID"
+                  type="ID"
+                  use="required"></xs:attribute>
+    <xs:attribute name="KioskID"
+                  type="ID"
+                  use="required"></xs:attribute>
+    <xs:attribute name="KioskSN"
+                  type="SerialNumber"
+                  use="optional"></xs:attribute>    
+    <xs:attribute name="LastSync"
+                  type="xs:dateTime"></xs:attribute>
+    <xs:attribute name="LastTransaction"
+                  type="xs:dateTime"></xs:attribute>
+    <xs:attribute name="CatalogVersion"
+                  type="xs:token"></xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="VDITransactionAttributeGroup">
+    <xs:attribute name="VDIXMLVersion"
+                  type="xs:positiveInteger"
+                  use="required"/>
+    <xs:attribute name="VDIXMLType"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="ProviderID"
+                  type="ID"
+                  use="required"  />
+    <xs:attribute name="ApplicationID"
+                  type="ID"
+                  use="required"/>
+    <xs:attribute name="ApplicationVersion"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="OperatorID"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="TransactionID"
+                  type="xs:token"
+                  use="required"/>
+    <xs:attribute name="TransactionTime"
+                  type="xs:dateTime"
+                  use="required"/>
+    <xs:attribute name="CompressionType"
+                  type="xs:token"
+                  use="optional"/>
+    <xs:attribute name="CompressionParam"
+                  type="xs:token"
+                  use="optional"/>
+    <xs:attribute name="Encoding"
+                  type="xs:token"
+                  use="optional"/>
+  </xs:attributeGroup>
+
+	<xs:complexType name="UserData">
+	  <xs:all></xs:all>
+	</xs:complexType>
+  
+  <xs:simpleType name="ID">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:maxLength value="64" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="SerialNumber">
+    <xs:restriction base="xs:token">
+      <xs:minLength value="1" />
+      <xs:maxLength value="64" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

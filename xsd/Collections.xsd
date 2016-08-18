@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CashCollection"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <xs:element name="VDITransaction">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CashCollections">
+					<xs:complexType>
+						<xs:sequence minOccurs="0"
+						             maxOccurs="unbounded">
+							<xs:element name="CashCollection">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="Bills"
+													type="Bills"
+										            minOccurs="0"/>
+										<xs:element name="Coins"
+													type="Coins"
+										            minOccurs="0"/>
+										<xs:element name="UserData"
+													type="UserData"
+										            minOccurs="0"/>
+									</xs:all>
+									<xs:attribute name="MarketID"
+									              type="ID"
+									              use="required"/>
+									<xs:attribute name="KioskID"
+									              type="ID"
+									              use="required"/>
+									<xs:attribute name="CollectionTime"
+									              type="xs:dateTime"
+									              use="required"/>
+									<xs:attribute name="Amount"
+									              type="xs:string"
+									              use="required"/>
+									<xs:attribute name="CollectedBy"
+									              type="xs:token"
+									              use="optional"/>
+									<xs:attribute name="Reference"
+									              type="xs:token"
+									              use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attributeGroup ref="VDITransactionGroup"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="VDITransactionGroup">
+		<xs:attribute name="VDIXMLVersion"
+		              type="xs:positiveInteger"
+		              use="required"/>
+		<xs:attribute name="VDIXMLType"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="ProviderID"
+		              type="ID"
+		              use="required"  />
+		<xs:attribute name="ApplicationID"
+		              type="ID"
+		              use="required"/>
+		<xs:attribute name="ApplicationVersion"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="OperatorID"
+		              type="xs:token"
+                      use="required"/>
+		<xs:attribute name="TransactionID"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="TransactionTime"
+		              type="xs:dateTime"
+		              use="required"/>
+
+		<xs:attribute name="CompressionType"
+		              type="xs:token"
+		              use="optional"/>
+		<xs:attribute name="CompressionParam"
+		              type="xs:token"
+		              use="optional"/>
+		<xs:attribute name="Encoding"
+		              type="xs:token"
+		              use="optional"/>
+	</xs:attributeGroup>
+	<xs:complexType name="Bills">
+		<xs:sequence maxOccurs="unbounded"/>
+		<xs:attributeGroup ref="BillOrCoinAttributeGroup"/>
+	</xs:complexType>
+
+	<xs:complexType name="Coins">
+		<xs:sequence maxOccurs="unbounded"/>
+		<xs:attributeGroup ref="BillOrCoinAttributeGroup"/>
+	</xs:complexType>
+
+	<xs:attributeGroup name="BillOrCoinAttributeGroup">
+		<xs:attribute name="Direction"
+		              type="CashDirection"
+		              use="required"/>
+		<xs:attribute name="Value"
+		              type="xs:decimal"
+		              use="required"/>
+		<xs:attribute name="Count"
+		              type="xs:integer"
+		              use="required"/>
+		<xs:attribute name="Amount"
+		              type="xs:decimal"
+		              use="required"/>
+	</xs:attributeGroup>
+
+	<xs:complexType name="UserData">
+		<xs:all/>
+	</xs:complexType>
+
+	<xs:simpleType name="ID">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1" />
+			<xs:maxLength value="64" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CashDirection">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="IN" />
+			<xs:enumeration value="OUT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

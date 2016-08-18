@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Market" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="VDITransaction" >
+		<xs:complexType>
+			<xs:all >
+				<xs:element name="MarketsCollection">
+					<xs:complexType>
+						<xs:sequence >
+							<xs:element name="Market"
+										type="Market"
+							            maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attributeGroup ref="VDITransactionAttributeGroup"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:attributeGroup name="VDITransactionAttributeGroup">
+		<xs:attribute name="VDIXMLVersion"
+		              type="xs:positiveInteger"
+		              use="required"/>
+		<xs:attribute name="VDIXMLType"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="ProviderID"
+		              type="ID"
+		              use="required"  />
+		<xs:attribute name="ApplicationID"
+		              type="ID"
+		              use="required"/>
+		<xs:attribute name="ApplicationVersion"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="OperatorID"
+		              type="xs:token"                  
+                      use="required"/>
+		<xs:attribute name="TransactionID"
+		              type="xs:token"
+		              use="required"/>
+		<xs:attribute name="TransactionTime"
+		              type="xs:dateTime"
+		              use="required"/>
+		<xs:attribute name="CompressionType"
+		              type="xs:token"
+		              use="optional"/>
+		<xs:attribute name="CompressionParam"
+		              type="xs:token"
+		              use="optional"/>
+		<xs:attribute name="Encoding"
+		              type="xs:token"
+		              use="optional"/>
+	</xs:attributeGroup>
+	
+	<xs:complexType name="Market" >
+		<xs:all>
+			<xs:element name="Kiosks"
+						type="Kiosks"
+						minOccurs="0"/>
+			<xs:element name="UserData"
+						type="UserData"
+						minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="MarketID"
+					  type="ID"
+					  use="required"/>
+		<xs:attribute name="MarketName"
+					  type="Name"
+					  use="required"/>
+		<xs:attribute name="MarketAddress"
+					  type="Name" />
+		<xs:attribute name="MarketLocation"
+					  type="Name" />
+		<xs:attribute name="ClientID"
+					  type="ID" />
+		<xs:attribute name="ClientName"
+					  type="Name" />
+	</xs:complexType>
+
+	<xs:complexType name="Kiosks">
+			<xs:sequence>
+				<xs:element name="Kiosk"
+				            maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="KioskID"
+						              type="ID"
+						              use="required"/>
+						<xs:attribute name="KioskSN"
+						              type="SerialNumber" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+
+	<xs:complexType name="UserData">
+		<xs:all />
+		<xs:anyAttribute />
+
+	</xs:complexType>
+
+	<xs:simpleType name="ID">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1" />
+			<xs:maxLength value="64" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Name" >
+		<xs:restriction base="xs:token">
+			<xs:minLength value="0" />
+			<xs:maxLength value="128" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SerialNumber">
+		<xs:restriction base="xs:token">
+			<xs:minLength value="1" />
+			<xs:maxLength value="64" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
