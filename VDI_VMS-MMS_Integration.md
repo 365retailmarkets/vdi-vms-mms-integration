@@ -283,7 +283,7 @@ Taxes collection name: Taxes
 
 Taxes collection element name: Tax
 
-Type: Tax
+#### Type: Tax
 
 | **Field**   | **Type**   | **Length**   | **Req’d**   | **Notes** |
 | ----------- | ---------- | ------------ | ----------- | ---------------------------------------------------------- |
