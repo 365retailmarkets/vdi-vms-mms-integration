@@ -225,8 +225,10 @@
 	</xs:complexType>
 	
 	<xs:complexType name="UserData">
-		<xs:all/>
-		<xs:anyAttribute/>
+            <xs:sequence>
+		<xs:any processContents="skip" minOccurs="0"/>
+            </xs:sequence>
+	    <xs:anyAttribute processContents="skip"/>
 	</xs:complexType>
 	
 	<xs:complexType name="Fees">
